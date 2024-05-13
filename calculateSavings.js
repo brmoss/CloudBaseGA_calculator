@@ -55,8 +55,8 @@ function calculateSavings() {
     const productCostConverted = (productCostGBP * exchangeRate).toFixed(2);
 
     // Convert hire price and maintenance cost to selected currency
-    const hirePriceConverted = (hirePrice * exchangeRate).toFixed(2);
-    const maintenanceCostConverted = (maintenanceCost * exchangeRate).toFixed(2);
+    const hirePriceConverted = (hirePrice).toFixed(2);
+    const maintenanceCostConverted = (maintenanceCost).toFixed(2);
 
     // Calculate paybacks
     const hirePayback = Math.round((flightCost / hirePriceConverted) * 3600);
@@ -70,7 +70,7 @@ function calculateSavings() {
         <br><br>
         However, at an invoiced hire rate of ${currencySymbol}${hirePriceConverted} per hour brakes-off to brakes-on, an underreported blocks time of just ${hirePayback} seconds costs the same as the ${currencySymbol}${flightCost} flight charge.
         <br><br>
-        At a maintenance cost of ${currencySymbol}${maintenanceCostConverted}, an over-reported flight time of just ${maintenancePayback}min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
+        At a maintenance cost of ${currencySymbol}${maintenanceCostConverted}, an over-reported flight time of just ${maintenancePayback} min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
     `;
 
     // Display the result
