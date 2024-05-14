@@ -6,15 +6,6 @@ function calculateSavings() {
     const flightsPerMonth = parseFloat(document.getElementById('flights-per-month').value);
     const currency = document.getElementById('currency').value;
 
-    // Debugging: Log input values
-    console.log('Inputs:', {
-        numAircraft,
-        hirePrice,
-        maintenanceCost,
-        flightsPerMonth,
-        currency
-    });
-
     // Exchange rates (values in GBP)
     const exchangeRates = {
         GBP: 1,
@@ -55,8 +46,8 @@ function calculateSavings() {
     const productCostConverted = (productCostGBP * exchangeRate).toFixed(2);
 
     // Convert hire price and maintenance cost to selected currency
-    const hirePriceConverted = (hirePrice).toFixed(2);
-    const maintenanceCostConverted = (maintenanceCost).toFixed(2);
+    const hirePriceConverted = (hirePrice * exchangeRate).toFixed(2);
+    const maintenanceCostConverted = (maintenanceCost * exchangeRate).toFixed(2);
 
     // Calculate paybacks
     const hirePayback = Math.round((flightCost / hirePriceConverted) * 3600);
@@ -66,11 +57,11 @@ function calculateSavings() {
     const narrative = `
         As your aircraft average ${totalFlightsPerYear > 200 ? 'more than' : 'less than or equal to'} 200 flights per year, the ${usageType} option is the most cost-effective.
         <br><br>
-        The CloudBaseGA system would cost your organisation ${currencySymbol}${monthlyCostPerAircraft} per month per aircraft and ${currencySymbol}${flightCost} per flight. Based on your fleet size and usage, this would total ${currencySymbol}${productCostConverted} per month.
+        The <strong style="color:#0057e1;">CloudBaseGA</strong> system would cost your organisation ${currencySymbol}${monthlyCostPerAircraft} per month per aircraft and ${currencySymbol}${flightCost} per flight. Based on your fleet size and usage, this would total ${currencySymbol}${productCostConverted} per month.
         <br><br>
         However, at an invoiced hire rate of ${currencySymbol}${hirePriceConverted} per hour brakes-off to brakes-on, an underreported blocks time of just ${hirePayback} seconds costs the same as the ${currencySymbol}${flightCost} flight charge.
         <br><br>
-        At a maintenance cost of ${currencySymbol}${maintenanceCostConverted}, an over-reported flight time of just ${maintenancePayback} min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
+        At a maintenance cost of ${currencySymbol}${maintenanceCostConverted}, an over-reported flight time of just ${maintenancePayback}min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
     `;
 
     // Display the result

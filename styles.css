@@ -1,5 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Verdana, sans-serif; /* Set font to Verdana */
+    font-size: 20px; /* Set font size to 20px */
     display: flex;
     justify-content: center;
     align-items: flex-start; /* Align items to the top */
@@ -60,6 +61,6 @@ button:hover {
 
 .result {
     margin-top: 20px;
-    font-size: 18px;
+    font-size: 20px; /* Set font size to 20px */
     word-wrap: break-word; /* Ensure long words break to avoid overflow */
 }
