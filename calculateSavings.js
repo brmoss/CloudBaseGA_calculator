@@ -58,6 +58,8 @@ function calculateSavings() {
         However, at an invoiced hire rate of ${currencySymbol}${hirePrice} per hour brakes-off to brakes-on, an underreported blocks time of just ${hirePayback} seconds costs the same as the ${currencySymbol}${flightCost} flight charge.
         <br><br>
         At a maintenance cost of ${currencySymbol}${maintenanceCost}, an over-reported flight time of just ${maintenancePayback} min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
+        <br><br>
+        <small style="font-size: 12px; color: #666;">Disclaimer: These totals are estimates. For more information, please contact us.</small>
     `;
 
     // Display the result
