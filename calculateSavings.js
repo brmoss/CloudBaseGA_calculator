@@ -45,10 +45,6 @@ function calculateSavings() {
     const productCostGBP = (monthlyCostPerAircraftGBP * numAircraft) + (flightCostGBP * numAircraft * flightsPerMonth);
     const productCostConverted = (productCostGBP * exchangeRate).toFixed(2);
 
-    // Convert hire price and maintenance cost to selected currency
-    const hirePriceConverted = (hirePrice * exchangeRate).toFixed(2);
-    const maintenanceCostConverted = (maintenanceCost * exchangeRate).toFixed(2);
-
     // Calculate paybacks
     const hirePayback = Math.round((flightCost / hirePrice) * 3600);
     const maintenancePayback = Math.round((flightCost / maintenanceCost) * 60);
