@@ -20,10 +20,16 @@
             <label for="num-aircraft">Number of aircraft in fleet:</label>
             <input type="number" id="num-aircraft" value="3" required>
             
-            <label for="hire-price">Average aircraft hire price per hour:</label>
+            <label for="hire-price">
+                Average aircraft hire price per hour:
+                <span class="info-icon" data-tooltip="The price of hire or instruction on your aircraft including all applicable fees. This is the invoiced total.">i</span>
+            </label>
             <input type="number" id="hire-price" value="200" step="0.01" required>
             
-            <label for="maintenance-cost">Aircraft variable maintenance cost per flight hour:</label>
+            <label for="maintenance-cost">
+                Aircraft variable maintenance cost per flight hour:
+                <span class="info-icon" data-tooltip="The variable maintenance cost for an aircraft per flight hour, covering all variable maintenance expenses. Even if you have maintenance in-house. This is unlikely to be 0!">i</span>
+            </label>
             <input type="number" id="maintenance-cost" value="50" step="0.01" required>
             
             <label for="flights-per-month">Number of flights per aircraft per month:</label>

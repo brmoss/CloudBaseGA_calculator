@@ -21,6 +21,7 @@ body {
     max-height: 90vh; /* Restrict the max height */
     overflow-y: auto; /* Enable vertical scrolling if needed */
     box-sizing: border-box; /* Include padding in width and height calculations */
+    position: relative; /* Ensure tooltips are contained within the container */
 }
 
 h1 {
@@ -34,6 +35,10 @@ form {
 
 label {
     margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
 }
 
 input, select {
@@ -42,6 +47,39 @@ input, select {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box; /* Ensure padding is included in element width */
+    flex: 1;
+}
+
+.info-icon {
+    font-size: 14px;
+    color: #0057e1;
+    cursor: pointer;
+    margin-left: 5px;
+    position: relative;
+}
+
+.info-icon::after {
+    content: attr(data-tooltip);
+    visibility: hidden;
+    width: 200px;
+    background-color: #0057e1;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    top: -20px; /* Position the tooltip above the icon */
+    right: -105%; /* Align tooltip to the right of the icon */
+    transform: translateX(0); /* Remove any horizontal translation */
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none; /* Prevent tooltip from capturing mouse events */
+}
+
+.info-icon:hover::after {
+    visibility: visible;
+    opacity: 1;
 }
 
 button {
