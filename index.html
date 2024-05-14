@@ -8,7 +8,6 @@
 </head>
 <body>
     <div class="calculator-container">
-        <!--<h1>Savings Calculator</h1>-->
         <form id="savings-form">
             <label for="currency">Select Currency:</label>
             <select id="currency">
@@ -29,6 +28,10 @@
             
             <label for="flights-per-month">Number of flights per aircraft per month:</label>
             <input type="number" id="flights-per-month" value="20" required>
+            
+            <label>
+                <input type="checkbox" id="hobbs-meter"> Hobbs meter used for maintenance time
+            </label>
             
             <button type="button" onclick="calculateSavings()">Calculate</button>
         </form>

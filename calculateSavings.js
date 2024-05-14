@@ -5,6 +5,7 @@ function calculateSavings() {
     const maintenanceCost = parseFloat(document.getElementById('maintenance-cost').value);
     const flightsPerMonth = parseFloat(document.getElementById('flights-per-month').value);
     const currency = document.getElementById('currency').value;
+    const hobbsMeterUsed = document.getElementById('hobbs-meter').checked;
 
     // Exchange rates (values in GBP)
     const exchangeRates = {
@@ -49,6 +50,22 @@ function calculateSavings() {
     const hirePayback = Math.round((flightCost / hirePrice) * 3600);
     const maintenancePayback = Math.round((flightCost / maintenanceCost) * 60);
 
+    // Calculate Hobbs cost if applicable
+    let hobbsNarrative = '';
+    if (hobbsMeterUsed) {
+        const hobbsCost = (maintenanceCost * 0.1).toFixed(2);
+        const hobbsCostPerMonth = (hobbsCost * numAircraft * flightsPerMonth).toFixed(2);
+        hobbsNarrative = `
+            As Hobbs times is being used to record maintenance intervals instead of airborne time, at least 12 mins of maintenance time is lost each flight. This is costing approximately ${currencySymbol}${hobbsCost} per flight.
+        `;
+        if (parseFloat(hobbsCostPerMonth) > parseFloat(productCostConverted)) {
+            const estimatedSaving = (parseFloat(hobbsCostPerMonth) - parseFloat(productCostConverted)).toFixed(2);
+            hobbsNarrative += `
+                The estimated net saving from using  the <strong style="color:#0057e1;">CloudBaseGA</strong> system and AutoLog to record flgiht times is ${currencySymbol}${estimatedSaving} per month.
+            `;
+        }
+    }
+
     // Generate narrative
     const narrative = `
         As your aircraft average ${totalFlightsPerYear > 200 ? 'more than' : 'less than or equal to'} 200 flights per year, the ${usageType} option is the most cost-effective.
@@ -59,7 +76,9 @@ function calculateSavings() {
         <br><br>
         At a maintenance cost of ${currencySymbol}${maintenanceCost}, an over-reported flight time of just ${maintenancePayback} min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
         <br><br>
-        <small style="font-size: 12px; color: #666;">Disclaimer: These totals are estimates. For more information, please contact us.</small>
+        ${hobbsNarrative}
+        <br><br>
+        <small style="font-size: 12px; color: #666;">This is an estimate. For more information, please contact us.</small>
     `;
 
     // Display the result
