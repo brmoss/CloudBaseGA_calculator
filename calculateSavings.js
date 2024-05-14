@@ -50,8 +50,8 @@ function calculateSavings() {
     const maintenanceCostConverted = (maintenanceCost * exchangeRate).toFixed(2);
 
     // Calculate paybacks
-    const hirePayback = Math.round((flightCost / hirePriceConverted) * 3600);
-    const maintenancePayback = Math.round((flightCost / maintenanceCostConverted) * 60);
+    const hirePayback = Math.round((flightCost / hirePrice) * 3600);
+    const maintenancePayback = Math.round((flightCost / maintenanceCost) * 60);
 
     // Generate narrative
     const narrative = `
@@ -59,9 +59,9 @@ function calculateSavings() {
         <br><br>
         The <strong style="color:#0057e1;">CloudBaseGA</strong> system would cost your organisation ${currencySymbol}${monthlyCostPerAircraft} per month per aircraft and ${currencySymbol}${flightCost} per flight. Based on your fleet size and usage, this would total ${currencySymbol}${productCostConverted} per month.
         <br><br>
-        However, at an invoiced hire rate of ${currencySymbol}${hirePriceConverted} per hour brakes-off to brakes-on, an underreported blocks time of just ${hirePayback} seconds costs the same as the ${currencySymbol}${flightCost} flight charge.
+        However, at an invoiced hire rate of ${currencySymbol}${hirePrice} per hour brakes-off to brakes-on, an underreported blocks time of just ${hirePayback} seconds costs the same as the ${currencySymbol}${flightCost} flight charge.
         <br><br>
-        At a maintenance cost of ${currencySymbol}${maintenanceCostConverted}, an over-reported flight time of just ${maintenancePayback}min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
+        At a maintenance cost of ${currencySymbol}${maintenanceCost}, an over-reported flight time of just ${maintenancePayback} min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
     `;
 
     // Display the result
