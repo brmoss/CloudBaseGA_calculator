@@ -61,7 +61,7 @@ function calculateSavings() {
         if (parseFloat(hobbsCostPerMonth) > parseFloat(productCostConverted)) {
             const estimatedSaving = (parseFloat(hobbsCostPerMonth) - parseFloat(productCostConverted)).toFixed(2);
             hobbsNarrative += `
-                The estimated net saving from using  the <strong style="color:#0057e1;">CloudBaseGA</strong> system and AutoLog to record flgiht times is ${currencySymbol}${estimatedSaving} per month.
+                The estimated net saving with accurate flight records from using the <strong style="color:#0057e1;">CloudBaseGA</strong> system and AutoLog is ${currencySymbol}${estimatedSaving} per month.
             `;
         }
     }
