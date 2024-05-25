@@ -131,3 +131,9 @@ canvas {
     display: block;
     margin: 20px auto;
 }
+
+@media (max-width: 600px) {
+    .input-group {
+        flex-direction: column;
+    }
+}
