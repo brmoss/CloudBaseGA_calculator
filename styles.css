@@ -130,6 +130,7 @@ button:hover {
 canvas {
     display: block;
     margin: 20px auto;
+    max-width: 100%; /* Ensure the canvas does not overflow */
 }
 
 @media (max-width: 600px) {

@@ -116,7 +116,7 @@ function calculateSavings() {
     const resultContent = `<p>${narrative}</p>`;
 
     if (advancedOption) {
-        resultDiv.innerHTML = `<canvas id="savings-chart" width="400" height="200"></canvas>` + resultContent;
+        resultDiv.innerHTML = `<canvas id="savings-chart"></canvas>` + resultContent;
         displayChart(systemCost, savings, currencySymbol);
     } else {
         resultDiv.innerHTML = resultContent;
@@ -179,7 +179,9 @@ function displayChart(systemCost, savings, currencySymbol) {
                 y: {
                     beginAtZero: true
                 }
-            }
+            },
+            responsive: true,
+            maintainAspectRatio: true // Maintain aspect ratio
         }
     });
 }
