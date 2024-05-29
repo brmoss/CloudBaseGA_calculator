@@ -10,18 +10,24 @@ function calculateSavings() {
     const flightAccuracy = parseFloat(document.getElementById('flight-accuracy').value);
     const blocksAccuracy = parseFloat(document.getElementById('blocks-accuracy').value);
 
-    // Exchange rates (values in GBP)
-    const exchangeRates = {
-        GBP: 1,
-        EUR: 1.18,
-        AUD: 1.92,
-        USD: 1.28
-    };
-
-    // Costs in GBP
+    // Fixed costs for each currency
     const costs = {
-        highUse: { monthly: 25, perFlight: 0.75 },
-        lowUse: { monthly: 12.50, perFlight: 1.50 }
+        GBP: {
+            highUse: { monthly: 25.00, perFlight: 0.75 },
+            lowUse: { monthly: 12.50, perFlight: 1.50 }
+        },
+        USD: {
+            highUse: { monthly: 30.00, perFlight: 1.00 },
+            lowUse: { monthly: 15.00, perFlight: 2.00 }
+        },
+        EUR: {
+            highUse: { monthly: 30.00, perFlight: 0.90 },
+            lowUse: { monthly: 15.00, perFlight: 1.80 }
+        },
+        AUD: {
+            highUse: { monthly: 50.00, perFlight: 1.50 },
+            lowUse: { monthly: 25.00, perFlight: 3.00 }
+        }
     };
 
     // Validate inputs
@@ -39,26 +45,22 @@ function calculateSavings() {
     const totalFlightsPerYear = flightsPerMonth * 12;
 
     // Determine usage type and costs
-    let usageType, monthlyCostPerAircraftGBP, flightCostGBP;
+    let usageType, monthlyCostPerAircraft, flightCost;
     if (totalFlightsPerYear > 200) {
         usageType = 'High Use';
-        monthlyCostPerAircraftGBP = costs.highUse.monthly;
-        flightCostGBP = costs.highUse.perFlight;
+        monthlyCostPerAircraft = costs[currency].highUse.monthly;
+        flightCost = costs[currency].highUse.perFlight;
     } else {
         usageType = 'Low Use';
-        monthlyCostPerAircraftGBP = costs.lowUse.monthly;
-        flightCostGBP = costs.lowUse.perFlight;
+        monthlyCostPerAircraft = costs[currency].lowUse.monthly;
+        flightCost = costs[currency].lowUse.perFlight;
     }
 
-    // Convert costs to selected currency
-    const exchangeRate = exchangeRates[currency];
     const currencySymbol = currency === 'GBP' ? '£' : (currency === 'EUR' ? '€' : '$');
-    const monthlyCostPerAircraft = (monthlyCostPerAircraftGBP * exchangeRate).toFixed(2);
-    const flightCost = (flightCostGBP * exchangeRate).toFixed(2);
 
     // Calculate product cost
-    const productCostGBP = (monthlyCostPerAircraftGBP * numAircraft) + (flightCostGBP * numAircraft * flightsPerMonth);
-    const productCostConverted = (productCostGBP * exchangeRate).toFixed(2);
+    const productCost = (monthlyCostPerAircraft * numAircraft) + (flightCost * numAircraft * flightsPerMonth);
+    const productCostConverted = productCost.toFixed(2);
 
     // Calculate paybacks
     const hirePayback = Math.round((flightCost / hirePrice) * 3600);
@@ -84,13 +86,13 @@ function calculateSavings() {
     let narrative = `
         As your aircraft average ${totalFlightsPerYear > 200 ? 'more than' : 'less than or equal to'} 200 flights per year, the ${usageType} option is the most cost-effective.
         <br><br>
-        The <strong style="color:#0057e1;">CloudBaseGA</strong> system would cost your organisation ${currencySymbol}${monthlyCostPerAircraft} per month per aircraft and ${currencySymbol}${flightCost} per flight. Based on your fleet size and usage, this would total ${currencySymbol}${productCostConverted} per month.
+        The <strong style="color:#0057e1;">CloudBaseGA</strong> system would cost your organisation ${currencySymbol}${monthlyCostPerAircraft.toFixed(2)} per month per aircraft and ${currencySymbol}${flightCost.toFixed(2)} per flight. Based on your fleet size and usage, this would total ${currencySymbol}${productCostConverted} per month.
         <br><br>
-        However, at an invoiced hire rate of ${currencySymbol}${hirePrice} per hour brakes-off to brakes-on, an underreported blocks time of just ${hirePayback} seconds costs the same as the ${currencySymbol}${flightCost} flight charge.
+        However, at an invoiced hire rate of ${currencySymbol}${hirePrice} per hour brakes-off to brakes-on, an underreported blocks time of just ${hirePayback} seconds costs the same as the ${currencySymbol}${flightCost.toFixed(2)} flight charge.
     `;
 
     // Only include maintenance payback if maintenance cost is >= equivalent of £10
-    if (maintenanceCost * exchangeRates.GBP / exchangeRate >= 10) {
+    if (maintenanceCost >= 10) {
         narrative += `
             <br><br>
             At a maintenance cost of ${currencySymbol}${maintenanceCost}, an over-reported flight time of just ${maintenancePayback} min will cost more than the flight charge in shorter-than-necessary maintenance intervals.
@@ -107,7 +109,7 @@ function calculateSavings() {
     // Calculate net savings if advanced option is selected
     let systemCost, savings;
     if (advancedOption) {
-        systemCost = Math.round(parseFloat(productCostConverted));
+        systemCost = Math.round(productCost);
         savings = Math.round((flightsPerMonth * numAircraft / 60) * ((blocksAccuracy * hirePrice) + (flightAccuracy * maintenanceCost)));
     }
 
