@@ -13,9 +13,9 @@ function calculateSavings() {
     // Exchange rates (values in GBP)
     const exchangeRates = {
         GBP: 1,
-        EUR: 1.17,
-        AUD: 1.88,
-        USD: 1.24
+        EUR: 1.18,
+        AUD: 1.92,
+        USD: 1.28
     };
 
     // Costs in GBP
