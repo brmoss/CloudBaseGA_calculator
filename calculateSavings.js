@@ -1,3 +1,30 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Set initial default values when the page loads
+    setDefaultValues();
+
+    // Update defaults when the aircraft type changes
+    document.getElementById('aircraft-type').addEventListener('change', setDefaultValues);
+});
+
+function setDefaultValues() {
+    const aircraftType = document.getElementById('aircraft-type').value;
+    const numAircraftInput = document.getElementById('num-aircraft');
+    const hirePriceInput = document.getElementById('hire-price');
+    const maintenanceCostInput = document.getElementById('maintenance-cost');
+
+    // Set the number of aircraft to 1 regardless of aircraft type
+    numAircraftInput.value = 1;
+
+    // Set default values based on aircraft type
+    if (aircraftType === 'fixed-wing') {
+        hirePriceInput.value = 200;
+        maintenanceCostInput.value = 50;
+    } else if (aircraftType === 'rotary-wing') {
+        hirePriceInput.value = 400;
+        maintenanceCostInput.value = 100;
+    }
+}
+
 function calculateSavings() {
     // Get the input values
     const numAircraft = parseFloat(document.getElementById('num-aircraft').value);
@@ -9,6 +36,7 @@ function calculateSavings() {
     const advancedOption = document.getElementById('advanced-option').checked;
     const flightAccuracy = parseFloat(document.getElementById('flight-accuracy').value);
     const blocksAccuracy = parseFloat(document.getElementById('blocks-accuracy').value);
+    const aircraftType = document.getElementById('aircraft-type').value;
 
     // Fixed costs for each currency
     const costs = {
@@ -48,13 +76,23 @@ function calculateSavings() {
     let usageType, monthlyCostPerAircraft, flightCost;
     if (totalFlightsPerYear > 200) {
         usageType = 'High Use';
-        monthlyCostPerAircraft = costs[currency].highUse.monthly;
-        flightCost = costs[currency].highUse.perFlight;
     } else {
         usageType = 'Low Use';
-        monthlyCostPerAircraft = costs[currency].lowUse.monthly;
-        flightCost = costs[currency].lowUse.perFlight;
     }
+
+    // Define the cost key based on usage type
+    const costKey = usageType === 'High Use' ? 'highUse' : 'lowUse';
+
+    // Calculate multipliers
+    const today = new Date();
+    const increaseDate = new Date(2025, 3, 1); // April 1st, 2025
+    const dateMultiplier = today >= increaseDate ? 1.20 : 1;
+    const aircraftMultiplier = aircraftType === 'fixed-wing' ? 1 : 2;
+    const totalMultiplier = dateMultiplier * aircraftMultiplier;
+
+    // Get base costs and apply the total multiplier
+    monthlyCostPerAircraft = costs[currency][costKey].monthly * totalMultiplier;
+    flightCost = costs[currency][costKey].perFlight * totalMultiplier;
 
     const currencySymbol = currency === 'GBP' ? '£' : (currency === 'EUR' ? '€' : '$');
 
@@ -122,24 +160,6 @@ function calculateSavings() {
         displayChart(systemCost, savings, currencySymbol);
     } else {
         resultDiv.innerHTML = resultContent;
-    }
-}
-
-// Toggle advanced section visibility
-function toggleAdvancedSection() {
-    const advancedSection = document.getElementById('advanced-section');
-    advancedSection.style.display = document.getElementById('advanced-option').checked ? 'block' : 'none';
-}
-
-// Prevent advanced option if Hobbs meter is selected and hide advanced section if necessary
-function toggleAdvancedOption() {
-    const advancedOption = document.getElementById('advanced-option');
-    if (document.getElementById('hobbs-meter').checked) {
-        advancedOption.checked = false;
-        advancedOption.disabled = true;
-        toggleAdvancedSection(); // Hide advanced section if Hobbs meter is selected
-    } else {
-        advancedOption.disabled = false;
     }
 }
 

@@ -17,7 +17,11 @@
                 <option value="AUD">AUD</option>
                 <option value="USD">USD</option>
             </select>
-
+            <label for="aircraft-type">Aircraft Type:</label>
+            <select id="aircraft-type">
+                <option value="fixed-wing" selected>Fixed-wing</option>
+                <option value="rotary-wing">Rotary-wing</option>
+            </select>
             <label for="num-aircraft">Number of aircraft in fleet:</label>
             <input type="number" id="num-aircraft" value="3" required>
             
@@ -35,7 +39,7 @@
             <input type="number" id="flights-per-month" value="20" required>
             
             <label class="checkbox-container">
-                <input type="checkbox" id="hobbs-meter" onclick="toggleAdvancedOption()"> Hobbs meter used for maintenance time
+                <input type="checkbox" id="hobbs-meter" onclick="toggleAdvancedOption()"> Hobbs meter/Datcon used for maintenance time
             </label>
             
             <label class="checkbox-container">
